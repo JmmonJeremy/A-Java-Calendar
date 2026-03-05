@@ -1,0 +1,74 @@
+package JavaCalendar.src;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Scanner;
+
+public class App {
+  private static Scanner scanner = new Scanner(System.in);
+  private static Scheduler scheduler = new Scheduler();
+
+  public static void main(String[] args) throws Exception {
+    try {
+      scheduler.loadFromFile();
+    } catch (Exception e) {
+      System.out.println("Error: Saved tasks could not be loaded.");
+    }
+
+    boolean running = true;
+
+    while (running) {
+      printMenu();
+      int choice = Integer.parseInt(scanner.nextLine());
+
+      switch (choice) {
+        case 1 -> addTask();
+        case 2 -> listAllTasks();
+        case 3 -> listTasksByDate();
+        case 4 -> saveAndExit();
+        case 5 -> running = false;
+        default -> System.out.println("Invalid option.");
+      }
+
+    }
+  }
+
+  private static void printMenu() {
+    System.out.println("\nTask Scheduler");
+    System.out.println("1. Add task");
+    System.out.println("2. View all tasks");
+    System.out.println("3. View tasks by date");
+    System.out.println("4. Save tasks");
+    System.out.println("5. Exit");
+    System.out.print("Choose an option: ");
+  }
+    // label, description, priority, date, startTime, duration
+    private static void addTask() {
+      System.out.print("Enter task label: ");
+      String label = scanner.nextLine();
+
+      System.out.print("Enter task description: ");
+      String description = scanner.nextLine();
+
+      System.out.print("Enter task priority (1-5): ");
+      Integer priority = Integer.parseInt(scanner.nextLine());
+
+      System.out.print("Enter date (YYYY-MM-DD): ");
+      LocalDate date = LocalDate.parse(scanner.nextLine());
+
+      System.out.print("Enter task start time (HH:MM, 24-hour format; example 14:30 for 2:30 pm): ");
+      LocalTime startTime = LocalTime.parse(scanner.nextLine());
+
+      System.out.print("Enter task duration in minutes: ");
+      Integer duration = Integer.parseInt(scanner.nextLine());
+
+      scheduler.addTask(label, description, priority, date, startTime, duration);
+      System.out.println("Task added.");
+  }
+
+  private static void listAllTasks() {
+    scheduler.listAllTasks();
+  }
+
+  
+
+}

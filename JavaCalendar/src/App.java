@@ -6,6 +6,10 @@ import java.util.Scanner;
 public class App {
   private static Scanner scanner = new Scanner(System.in);
   private static Scheduler scheduler = new Scheduler();
+  // Constants for ANSI
+  private static final String BOLD = "\u001B[1m";
+  private static final String UNDERLINE = "\u001B[4m";
+  private static final String RESET = "\u001B[0m";
 
   public static void main(String[] args) throws Exception {
     try {
@@ -19,6 +23,7 @@ public class App {
     while (running) {
       printMenu();
       int choice = Integer.parseInt(scanner.nextLine());
+      System.out.print(RESET + "\n"); // stop underline
 
       switch (choice) {
         case 1 -> addTask();
@@ -33,13 +38,15 @@ public class App {
   }
 
   private static void printMenu() {
-    System.out.println("\nTask Scheduler");
-    System.out.println("1. Add task");
-    System.out.println("2. View all tasks");
-    System.out.println("3. View tasks by date");
-    System.out.println("4. Save tasks");
-    System.out.println("5. Exit");
-    System.out.print("Choose an option: ");
+    System.out.println("\n" + BOLD + "=====================" + RESET);
+    System.out.println(BOLD + UNDERLINE + "Task Scheduler       " + RESET);
+    System.out.println("1) Add task");
+    System.out.println("2) View all tasks");
+    System.out.println("3) View tasks by date");
+    System.out.println("4) Save tasks");
+    System.out.println("5) Exit");
+    System.out.println(BOLD + "=====================" + RESET);
+    System.out.print(BOLD + "Option Selection:  " + RESET + UNDERLINE);
   }
     // label, description, priority, date, startTime, duration
     private static void addTask() {

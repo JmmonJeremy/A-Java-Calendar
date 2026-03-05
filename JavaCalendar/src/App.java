@@ -69,6 +69,19 @@ public class App {
     scheduler.listAllTasks();
   }
 
-  
+  private static void listTasksByDate() {
+    System.out.print("Enter date (YYYY-MM-DD): ");
+    LocalDate date = LocalDate.parse(scanner.nextLine());
+    scheduler.listTasksByDate(date);
+  }
+
+  private static void saveAndExit() {
+    try {
+      scheduler.saveToFile();
+      System.out.println("Tasks saved.");
+    } catch (Exception e) {
+      System.out.println("Error saving tasks.");
+    }
+  }
 
 }

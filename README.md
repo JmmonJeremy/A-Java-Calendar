@@ -21,7 +21,9 @@ Instructions for using the software:
 
 1. Open the JavaCalendar folder with VS Code
 2. Click on the Run in the App.java class file above the main method or the play arrow at the top right
-3. User the terminal to enter selections of Add task, View all tasks, View tasks by date, Change task status, Save changes, and Exit
+3. Alternatively in the powershell terminal enter the command "javac JavaCalendar/src/App.java" to compile the code & create class extension files
+4. In the powershell terminal enter the command "java JavaCalendar/src/App.java" to run the main method in the App.java file
+5. User the terminal to enter selections of Add task, View all tasks, View tasks by date, Change task status, Save changes, and Exit
 
 ## Folder Structure
 

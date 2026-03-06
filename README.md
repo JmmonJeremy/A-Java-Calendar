@@ -4,7 +4,7 @@ This a Java program for scheduling, prioritizing, and tracking tasks by date and
 
 ## Instructions for Build and Use
 
-[Software Demo](Put_Your_Video_Link_Here)
+[Software Demo](https://youtu.be/mWVzVVO07hI)
 
 Steps to build and/or run the software:
 
@@ -89,6 +89,7 @@ I found these websites useful in developing this software:
 
 The following items I plan to fix, improve, and/or add to this project in the future:
 
+* [ ] I will add a try catch while loop to catch false date formats and entries for selecting tasks by date
 * [ ] I want to make it so default year, month, and day are available - so they don't have to be typed in
 * [ ] I want to make it to the output is grouped by month, week, and day
 * [ ] I want to add a class for Events

@@ -1,26 +1,25 @@
 package JavaCalendar.src;
+import static JavaCalendar.src.DateFormatAndAnsiStyles.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
 
+
 public class App {
   private static Scanner scanner = new Scanner(System.in);
   private static Scheduler scheduler = new Scheduler();
-  // Constants for ANSI
-  private static final String BOLD = "\u001B[1m";
-  private static final String UNDERLINE = "\u001B[4m";
-  private static final String RESET = "\u001B[0m";
+  private static boolean calendarOpen;  
 
   public static void main(String[] args) throws Exception {
     try {
       scheduler.loadFromFile();
     } catch (Exception e) {
-      System.out.println("Error: Saved tasks could not be loaded.");
+      System.out.println(RED + "Error: Saved tasks could not be loaded." + RESET);
     }
 
-    boolean running = true;
+    calendarOpen = true;
 
-    while (running) {
+    while (calendarOpen) {
       printMenu();
       int choice = Integer.parseInt(scanner.nextLine());
       System.out.print(RESET + "\n"); // stop underline
@@ -29,9 +28,10 @@ public class App {
         case 1 -> addTask();
         case 2 -> listAllTasks();
         case 3 -> listTasksByDate();
-        case 4 -> saveAndExit();
-        case 5 -> running = false;
-        default -> System.out.println("Invalid option.");
+        case 4 -> changeCompleteStatus();
+        case 5 -> saveTasks();
+        case 6 -> closeCalendar();
+        default -> System.out.println(RED + "Invalid option." + GREEN + "Please try again & enter option number 1-6 from the menu." + RESET);
       }
 
     }
@@ -39,37 +39,83 @@ public class App {
 
   private static void printMenu() {
     System.out.println("\n" + BOLD + "=====================" + RESET);
-    System.out.println(BOLD + UNDERLINE + "Task Scheduler       " + RESET);
+    System.out.println(BOLD + UNDERLINE + "Task Calendar        " + RESET);
     System.out.println("1) Add task");
     System.out.println("2) View all tasks");
     System.out.println("3) View tasks by date");
-    System.out.println("4) Save tasks");
-    System.out.println("5) Exit");
+    System.out.println("4) Change task status");
+    System.out.println("5) Save changes");
+    System.out.println("6) Exit");
     System.out.println(BOLD + "=====================" + RESET);
     System.out.print(BOLD + "Option Selection:  " + RESET + UNDERLINE);
   }
-    // label, description, priority, date, startTime, duration
+    // Takes label, description, priority, date, startTime, duration
     private static void addTask() {
-      System.out.print("Enter task label: ");
+      // Label Entry from User
+      System.out.print(GREEN + BOLD + "Enter task label: " + RESET);
       String label = scanner.nextLine();
 
-      System.out.print("Enter task description: ");
+      // Description Entry from User
+      System.out.print(GREEN + BOLD + "Enter task description: " + RESET);
       String description = scanner.nextLine();
 
-      System.out.print("Enter task priority (1-5): ");
-      Integer priority = Integer.parseInt(scanner.nextLine());
+      // Priority Entry from User
+      Integer priority = null;
+      while (priority == null) {
+          try {
+              System.out.print(GREEN + BOLD + "Enter task priority " + COLOR_RESET + "(1-5)" + GREEN + ": " + RESET);
+              priority = Integer.parseInt(scanner.nextLine());
+              if (priority < 1 || priority > 5) {
+                  System.out.println(RED + "Priority must be a whole number from 1 to 5." + RESET);
+                  priority = null;
+              }
+          } catch (NumberFormatException e) {
+              System.out.println(RED + "Invalid input. Please enter a whole number from 1 to 5." + RESET);
+          }
+      }
 
-      System.out.print("Enter date (YYYY-MM-DD): ");
-      LocalDate date = LocalDate.parse(scanner.nextLine());
+      // Date Entry from User
+      LocalDate date = null;
+      while (date == null) {
+          try {
+              System.out.print(GREEN + BOLD + "Enter date " + COLOR_RESET + "(YYYY-MM-DD)" + GREEN + ": " + RESET);
+              date = LocalDate.parse(scanner.nextLine());
+          } catch (Exception e) {
+              System.out.println(RED + "Invalid date format. Please use YYYY-MM-DD." + RESET);
+          }
+      }
 
-      System.out.print("Enter task start time (HH:MM, 24-hour format; example 14:30 for 2:30 pm): ");
-      LocalTime startTime = LocalTime.parse(scanner.nextLine());
+      // Start Time Entry from User
+      LocalTime startTime = null;
+      while (startTime == null) {
+          try {
+              System.out.print(GREEN + BOLD + "Enter task start time " + COLOR_RESET + "(HH:MM, 24-hour format; " + PURPLE + "Example 2:30 pm is 14:30)" + GREEN + ": " + RESET);
+              startTime = LocalTime.parse(scanner.nextLine());
+          } catch (Exception e) {
+              System.out.println(RED + "Invalid time format. Please use HH:MM in 24-hour format." + RESET);
+          }
+      }
 
-      System.out.print("Enter task duration in minutes: ");
-      Integer duration = Integer.parseInt(scanner.nextLine());
+      // Duration Entry from User
+      Integer duration = null;
+      while (duration == null) {
+          try {
+              System.out.print(GREEN + BOLD + "Enter task duration in minutes: " + RESET);
+              duration = Integer.parseInt(scanner.nextLine());
+              if (duration <= 0) {
+                  System.out.println(RED + "Duration must be greater than 0." + RESET);
+                  duration = null;
+              }
+          } catch (NumberFormatException e) {
+              System.out.println(RED + "Invalid input. Please enter a whole number for duration." + RESET);
+          }
+      }
 
+      // Add Task & Communicate it to User
       scheduler.addTask(label, description, priority, date, startTime, duration);
-      System.out.println("Task added.");
+      System.out.println("\n" + BOLD + "+ + + + + +");
+      System.out.println(GREEN + "Task added." + COLOR_RESET);
+      System.out.println("+ + + + + +" + RESET);
   }
 
   private static void listAllTasks() {
@@ -77,18 +123,39 @@ public class App {
   }
 
   private static void listTasksByDate() {
-    System.out.print("Enter date (YYYY-MM-DD): ");
+    System.out.print(GREEN + BOLD + "Enter date you wish to view tasks for (YYYY-MM-DD): " + RESET);    
     LocalDate date = LocalDate.parse(scanner.nextLine());
     scheduler.listTasksByDate(date);
   }
 
-  private static void saveAndExit() {
+  private static void changeCompleteStatus() {
+    scheduler.listTaskSummary();
+    System.out.println("______________________________________________________");
+    System.out.print(GREEN + BOLD + "Enter number of task to change task completion status: " + RESET);
+    int taskNumber = Integer.parseInt(scanner.nextLine());
+
+    scheduler.toggleCompleteStatus(taskNumber - 1);
+    System.out.println(BOLD + "\n.................................");
+    System.out.println(GREEN + "Task status successfully updated." + RESET);
+    System.out.println("*********************************");
+}
+
+  private static void saveTasks() {
     try {
       scheduler.saveToFile();
-      System.out.println("Tasks saved.");
+      System.out.println(BOLD + "~~~~~~~~~~~~~~~~~~~");
+      System.out.println(GREEN + "Task changes saved." + COLOR_RESET);
+      System.out.println("~~~~~~~~~~~~~~~~~~~" + RESET);
     } catch (Exception e) {
       System.out.println("Error saving tasks.");
     }
+  }
+
+  private static void closeCalendar() {
+    System.out.println(BOLD + "---------------------------------------");
+    System.out.println(RED + "Closing Calendar " + COLOR_RESET + "... " + GREEN + "see you next time!" + COLOR_RESET);
+    System.out.println("---------------------------------------\n" + RESET);
+    calendarOpen = false;
   }
 
 }

@@ -1,4 +1,5 @@
 package JavaCalendar.src;
+import static JavaCalendar.src.DateFormatAndAnsiStyles.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,21 +16,51 @@ public class Scheduler {
 
   public void addTask(String label, String description, Integer priority, LocalDate date, LocalTime startTime, Integer duration) {
     tasks.add(new Task(label, description, priority, date, startTime, duration));
+    tasks.sort(null); // automatically uses compareTo
+  }
+
+  public void toggleCompleteStatus(int index) {    
+    if (index >= 0 && index < tasks.size()) {
+      Task task = tasks.get(index);
+      if (task.getCompleted()) {
+        task.setCompleted(false);
+      } else {
+        task.setCompleted(true);
+      }
+      System.out.println("Task status set to " + PURPLE + (task.getCompleted() ? "Done [X]." : "Pending [ ].") + RESET);
+    } else {
+      System.out.println("Invalid task number.");
+    }
   }
 
   public void listAllTasks() {
     if (tasks.isEmpty()) {
-      System.out.println("No tasks found.");
+      System.out.println(RED + "No tasks found." + RESET);
       return;
     }
 
+    int number = 1;
     for (Task task : tasks) {
-      System.out.println(task);
+      System.out.println(number + ") " + task);
+      number ++;
     }
   }
 
+  public void listTaskSummary() {
+  if (tasks.isEmpty()) {
+    System.out.println(RED + "No tasks found." + RESET);
+    return;
+  }
+
+  for (int i = 0; i < tasks.size(); i++) {
+    Task task = tasks.get(i);
+    System.out.println((i + 1) + ") " + task.getTaskDate().format(DATE_FORMAT) + " - " + task.getTaskTime().format(TIME_FORMAT) + " | " + task.getTaskLabel() + " | " + (task.getCompleted() ? "Done [X]" : "Pending [ ]"));
+  }
+}
+
   public void listTasksByDate(LocalDate date) {
     boolean found = false;
+    System.out.println();
 
     for (Task task : tasks) {
       if (task.getTaskDate().equals(date)) {
@@ -39,7 +70,7 @@ public class Scheduler {
     }
 
     if (!found) {
-      System.out.println("No tasks on this date.");
+      System.out.println(RED + "No tasks on this date." + RESET);
     }
   }
 
@@ -62,6 +93,7 @@ public class Scheduler {
       while ((line = reader.readLine()) != null) {
         tasks.add(Task.fromFileString(line));
       }
+      tasks.sort(null); // automatically uses compareTo
     }
   }
 }

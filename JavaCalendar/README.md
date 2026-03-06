@@ -1,6 +1,6 @@
 # A Java Calendar for Tasks and Events
 
-This a Java program for tracking tasks and events on a calendar.
+This a Java program for scheduling, prioritizing, and tracking tasks by date and time on a calendar-type setup.
 
 ## Instructions for Build and Use
 
@@ -19,9 +19,9 @@ Steps to build and/or run the software:
 
 Instructions for using the software:
 
-1. First step here
-2.
-3.
+1. Open the JavaCalendar folder with VS Code
+2. Click on the Run in the App.java class file above the main method or the play arrow at the top right
+3. User the terminal to enter selections of Add task, View all tasks, View tasks by date, Change task status, Save changes, and Exit
 
 ## Folder Structure
 
@@ -45,6 +45,7 @@ To recreate the development environment, you need the following software and/or 
 
 * Visual Studio Code
 * JDK 21 LTS
+* ANSI Escape Sequences
 * Git / GitHub
 
 ## Useful Websites to Learn More
@@ -57,15 +58,36 @@ I found these websites useful in developing this software:
 * [Creating a Java Project in VS Code](https://se-education.org/guides/tutorials/vscCreatingNewJavaProject.html)
 * [Managing Java Projects in VS Code](https://code.visualstudio.com/docs/java/java-project)
 
-### Visual Studio Code :
+### Java :
 * [Java Tutorial](https://www.w3schools.com/java/default.asp)
 * [Java ArrayList](https://beginnersbook.com/java-collections-tutorials/)
-*
+* [Java Comparable Interface](https://www.geeksforgeeks.org/java/comparable-interface-in-java-with-examples/)
+* [Java Comparable Multiple Factors](https://jenkov.com/tutorials/java-collections/comparable.html)
+* [Java sort(null)](https://stackoverflow.com/questions/49436291/what-does-arraylistname-sortnull-do)
+* [Java toString() & Overriding](https://www.baeldung.com/java-tostring)
+* [Java Split String Using Regex](https://www.geeksforgeeks.org/java/java-split-string-using-regex/)
+* [Java Array indexing](https://www.javaspring.net/blog/index-of-array-java/)
+* [Java ArrayList Methods](https://www.w3schools.com/java/java_ref_arraylist.asp)
+* [Java ArrayList isEmpty()](https://www.geeksforgeeks.org/java/arraylist-isempty-java-example/)
+* [Java Date and Time](https://www.w3schools.com/java/java_date.asp)
+* [Java LocalDate](https://beginnersbook.com/2017/10/java-localdate/)
+* [Java LocalDate – equals()](https://beginnersbook.com/2017/10/java-localdate-equals/)
+* [Java LocalTime](https://beginnersbook.com/2017/10/java-localtime/)
+* [Java LocalTime plusMinutes()](https://www.geeksforgeeks.org/java/localtime-plusminutes-method-in-java-with-examples/)
+* [Java DateTimeFormatter](https://beginnersbook.com/2017/11/java-datetimeformatter/)
+* [Java BufferedWriter](https://www.w3schools.com/JAVA/java_bufferedwriter.asp)
+* [Java BufferedReader](https://www.w3schools.com/java/java_bufferedreader.asp)
+* [Java Switch](https://www.w3schools.com/java/java_switch.asp)
+* [Java Output / Print](https://www.w3schools.com/java/java_output.asp)
+* [Java Colored Console Text](https://www.geeksforgeeks.org/java/how-to-print-colored-text-in-java-console/)
+* [Java ANSI Code Constants](https://www.tutorialspoint.com/how-to-print-colored-text-in-java-console)
+* [ANSI Escape Sequences](https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797)
 
 ## Future Work
 
 The following items I plan to fix, improve, and/or add to this project in the future:
 
-* [ ] First thing here
-* [ ]
-* [ ]
+* [ ] I want to make it so default year, month, and day are available - so they don't have to be typed in
+* [ ] I want to make it to the output is grouped by month, week, and day
+* [ ] I want to add a class for Events
+* [ ] I want to add a monthly grid JavaFX GUI

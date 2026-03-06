@@ -1,10 +1,9 @@
 package JavaCalendar.src;
+import static JavaCalendar.src.DateFormatAndAnsiStyles.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.management.timer.Timer;
-
-public class Task {
+public class Task implements Comparable<Task> {
   private String taskLabel;
   private String taskDescription;
   private Integer taskPriority;
@@ -12,6 +11,19 @@ public class Task {
   private LocalTime taskTime;
   private Integer taskDuration; // In minutes
   private boolean completed;
+  
+
+  // Sort tasks by date and then time
+  @Override
+  public int compareTo(Task other) {
+      // Compare dates and if dates are different return that comparison
+      int dateCompare = this.taskDate.compareTo(other.taskDate);
+      if (dateCompare != 0) {
+          return dateCompare;
+      }
+      // If dates are the same compare time
+      return this.taskTime.compareTo(other.taskTime);
+  }
 
   public Task(String task, String description, Integer priority, LocalDate date, LocalTime startTime, Integer duration) {
     taskLabel = task;
@@ -75,31 +87,33 @@ public class Task {
     return taskTime.plusMinutes(taskDuration);
   }
 
-  public boolean isCompleted() {
+  public boolean getCompleted() {
     return completed;
   }
 
-  public void markCompleted() {
-    completed = true;
-  }
+  public void setCompleted(boolean completed) {
+    this.completed = completed;
+}
+
 
   // Controls how the Task object prints as a string
   @Override
   public String toString() {  
-    return taskLabel + " (Priority Level: " + taskPriority + ") | " + taskDate + " (" + taskTime + " - " + getTaskEndTime() + ") | " + (completed ? "Done" : "Pending" + "\nDescription: " + taskDescription + "\nExpected Duration: " + getFormattedDuration());
+    return taskDate.format(DATE_FORMAT) + " (" + taskTime.format(TIME_FORMAT) + " - " + getTaskEndTime().format(TIME_FORMAT) + ") Expected Duration: " + getFormattedDuration() + " | " + taskLabel + " (Priority Level: " + taskPriority + ") | " + (completed ? "Done [X]" : "Pending [ ]") + GREEN + "\n    -> Description: " + taskDescription + RESET;
   }
 
   // Converts the object into a comma-separated string for saving to a file (like CSV format)
   public String toFileString() {
-    return taskLabel + "," + taskDescription + "," + taskPriority + "," + taskDate + "," + taskTime + "," + taskDuration + "," + completed;
+    return taskLabel + "`" + taskDescription + "`" + taskPriority + "`" + taskDate + "`" + taskTime + "`" + taskDuration + "`" + completed;
   }
 
   // Takes a line from a file and converts it back into a Task object
   public static Task fromFileString(String line) {
-    String[] parts = line.split(",");
+    String[] parts = line.split("`");
     Task task = new Task(parts[0], parts[1], Integer.parseInt(parts[2]), LocalDate.parse(parts[3]), LocalTime.parse(parts[4]), Integer.parseInt(parts[5]));
+    // Change new task completed boolean from false to true if in doc as true
     if (Boolean.parseBoolean(parts[6])) {
-      task.markCompleted();
+      task.setCompleted(true);
     }
     return task;
   }

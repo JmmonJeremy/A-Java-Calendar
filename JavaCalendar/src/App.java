@@ -1,3 +1,17 @@
+// I have Java 17 (LTS) & Java 21 (LTS) - from https://adoptium.net/ both are industry baseline LTS
+// Java 25 (LTS) is available, but it is not industry baseline LTS when this was written 2/28/2026
+/*  Project Outline of Requirement Fulfillments:
+#1 Conditionals: Use of Switch for menu, if, try, and catch statements to prevent incorrect inputs
+#2 Loops: While loops in menu to keep it running until exit and questions repeated until correct input given
+   For loops used to cycle through tasks to print to the screen or the document
+#3 Functions: getters() to get the parts of Task, compareTo() to order tasks by date, setCompleted() to change task status, 
+   toString() to make string for terminal, toFileString() to make string for document, fromFileString() to convert document string to Task object
+   All of the function in the Scheduler class to work with the tasks in an ArrayList & document - addTask, toggleCompleteStatus, listAllTasks, etc.
+   The main method/function to run the program and the menu for the user to control the program
+#4 Classes: App, Task, Scheduler, and DateFormatAndAnsiStyles 
+#5 Data structure from Java Collection Framework: ArrayList<Task> tasks to hold the different Task Class objects
+#6 Stretch Challenge: Used BufferedWriter and BufferedReader to modify the program to read and write to a file
+*/
 package JavaCalendar.src;
 import static JavaCalendar.src.DateFormatAndAnsiStyles.*;
 import java.time.LocalDate;
